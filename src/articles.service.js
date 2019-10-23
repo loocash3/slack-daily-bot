@@ -34,7 +34,8 @@ const send = (req, res) => {
                                         type: 'plain_text',
                                         text: 'Show more',
                                         emoji: true
-                                    }
+                                    },
+                                    value: text
                                 }
                             ]
                         }
@@ -52,7 +53,36 @@ const send = (req, res) => {
 };
 
 const sendMore = (req, res) => {
+    const { text, trigger_id, channel_id } = req.body;
 
+    if (signature.isVerified(req)) {
+        const data = {
+            token: process.env.SLACK_ACCESS_TOKEN,
+            trigger_id,
+            channel: channel_id
+        };
+        axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(data))
+            .then((result) => {
+                const response = {
+                    blocks: [
+                        {
+                            type: 'section',
+                            text: {
+                                type: 'mrkdwn',
+                                text: '*More results*\nMore articles about ' + text
+                            }
+                        }
+                    ]
+                };
+                res.json(response);
+            }).catch((err) => {
+            debug('err: %o', err);
+            res.sendStatus(500);
+        });
+    } else {
+        debug('Verification token mismatch');
+        res.sendStatus(404);
+    }
 };
 
-module.exports = { send };
+module.exports = { send, sendMore };

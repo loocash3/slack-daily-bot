@@ -17,7 +17,7 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
 app.get('/', healthcheck.send);
 app.post('/command', articlesService.send);
-app.post('/actions', articlesService.send);
+app.post('/actions', articlesService.sendMore);
 
 const server = app.listen(process.env.PORT || 5000, () => {
   console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
