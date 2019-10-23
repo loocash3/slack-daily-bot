@@ -1,9 +1,11 @@
 const axios = require('axios');
 
-const googleNews = (query) => {
-  const promise = axios.post(`https://gnews.io/api/v3/search?q=${query}&token=2de28b05d6616843e2b7a7de38383861&max=1`);
+const news = (query) => {
+  const promise = axios.post(`https://omni-monitor-stage.herokuapp.com/archive/${query}`);
 
-  return promise;
+  Promise.all([promise]).then(([results]) => {
+      return results;
+  });
 };
 
-module.exports = { googleNews };
+module.exports = { news };
