@@ -56,6 +56,7 @@ const sendMore = (req, res) => {
     const { text, trigger_id, channel_id } = req.body;
     console.log(req.body);
     if (signature.isVerified(req)) {
+        console.log('verified');
         const data = {
             token: process.env.SLACK_ACCESS_TOKEN,
             trigger_id,
@@ -74,9 +75,10 @@ const sendMore = (req, res) => {
                         }
                     ]
                 };
+                console.log(response);
                 res.json(response);
             }).catch((err) => {
-            debug('err: %o', err);
+                console.log(err);
             res.sendStatus(500);
         });
     } else {
