@@ -48,8 +48,13 @@ app.post('/command', (req, res) => {
       channel: channel_id,
       text: 'lorem ipsum'
     };
-    request.post('https://slack.com/api/chat.postMessage', data, function (error, response, body) {
-      res.json();
+    axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(data))
+        .then((result) => {
+          debug('data: %o', result.data);
+          res.send('');
+        }).catch((err) => {
+      debug('dialog.open call failed: %o', err);
+      res.sendStatus(500);
     });
   } else {
     debug('Verification token mismatch');
