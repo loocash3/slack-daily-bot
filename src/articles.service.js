@@ -1,11 +1,12 @@
 const axios = require('axios');
 const debug = require('debug')('slash-command-template:index');
 const qs = require('querystring');
+const news = require('./news');
 const signature = require('./verifySignature');
 const apiUrl = 'https://slack.com/api';
 
-const send = (req, res) => {
-    const {text, trigger_id, channel_id} = req.body;
+const send = async (req, res) => {
+    const {trigger_id, channel_id} = req.body;
 
     if (signature.isVerified(req)) {
         const data = {
@@ -13,6 +14,11 @@ const send = (req, res) => {
             trigger_id,
             channel: channel_id
         };
+
+        const text = req.body.text || 'schibsted';
+
+        let news = await news.news(text);
+
         axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(data))
             .then((result) => {
                 //Response text
@@ -22,7 +28,7 @@ const send = (req, res) => {
                             type: 'section',
                             text: {
                                 type: 'mrkdwn',
-                                text: '*Results*\nYour articles about ' + text //Place for articles
+                                text: buildArticleList(news)
                             }
                         },
                         {
@@ -74,6 +80,16 @@ const sendMore = (req, res) => {
         debug('Verification token mismatch');
         res.sendStatus(404);
     }
+};
+
+const buildArticleList = (news) => {
+    return news.reduce((accumulator, currentValue) => {
+        accumulator.push(currentValue.title);
+        currentValue.links.map(link => {
+            accumulator.push(link.url);
+        });
+        return accumulator;
+    }, ['*Results*']).join('\n');
 };
 
 module.exports = {send, sendMore};

@@ -1,11 +1,12 @@
 const axios = require('axios');
 
-const news = (query) => {
-  const promise = axios.post(`https://omni-monitor-stage.herokuapp.com/archive/${query}`);
-
-  Promise.all([promise]).then(([results]) => {
-      return results;
-  });
+const news = async (query) => {
+    return axios.get(`https://omni-monitor-stage.herokuapp.com/archive/${query}`).then((response) => {
+        return response.data;
+    }).catch((error => {
+        console.log(error);
+        return [];
+    }));
 };
 
 module.exports = { news };

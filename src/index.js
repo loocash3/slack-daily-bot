@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const articlesService = require('./articles.service');
 const healthcheck = require('./healthcheck.service');
+const testService = require('./test.service');
 
 const rawBodyBuffer = (req, res, buf, encoding) => {
   if (buf && buf.length) {
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true }));
 app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
 app.get('/', healthcheck.send);
+app.get('/test', testService.send);
 app.post('/command', articlesService.send);
 app.post('/actions', articlesService.sendMore);
 
