@@ -35,7 +35,10 @@ const send = (req, res) => {
                                         text: 'Show more',
                                         emoji: true
                                     },
-                                    value: text
+                                    value: {
+                                        name: text,
+                                        timestamp: Date.now()
+                                    }
                                 }
                             ]
                         }
@@ -60,13 +63,12 @@ const sendMore = (req, res) => {
     console.log(body.response_url);
     if (signature.isVerified(req)) {
         const data = {
-            text: '*More articles*\n',//Place for more articles
             blocks: [
                 {
                     type: 'section',
                     text: {
                         type: 'mrkdwn',
-                        text: '*Results*\nMore articles about ' + body.actions[0].value //Place for articles
+                        text: '*Results*\nMore articles about ' + body.actions[0].value.name //Place for articles
                     }
                 },
                 {
@@ -79,7 +81,10 @@ const sendMore = (req, res) => {
                                 text: 'Show more',
                                 emoji: true
                             },
-                            value: body.actions[0].value
+                            value: {
+                                name: body.actions[0].value.name,
+                                timestamp: Date.now()
+                            }
                         }
                     ]
                 }
@@ -87,42 +92,11 @@ const sendMore = (req, res) => {
         };
         axios.post(response_url, data)
             .then((result) => {
-                console.log(result);
-                res.send('');
+                res.send('ok');
             }).catch((err) => {
                 console.log(err);
                 res.sendStatus(500);
         });
-        axios.post(`${apiUrl}/chat.postMessage`, data)
-            .then((result) => {
-                const data = {
-                    text: '*More articles*\n',//Place for more articles
-                    blocks: [
-                        {
-                            type: 'section',
-                            text: {
-                                type: 'mrkdwn',
-                                text: '*Results*\nMore articles about ' + body.actions[0].value //Place for articles
-                            }
-                        },
-                        {
-                            type: 'actions',
-                            elements: [
-                                {
-                                    type: 'button',
-                                    text: {
-                                        type: 'plain_text',
-                                        text: 'Show more',
-                                        emoji: true
-                                    },
-                                    value: body.actions[0].value
-                                }
-                            ]
-                        }
-                    ]
-                };
-                res.json(data);
-            });
     } else {
         debug('Verification token mismatch');
         res.sendStatus(404);
