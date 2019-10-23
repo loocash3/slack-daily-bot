@@ -54,31 +54,20 @@ const send = (req, res) => {
 
 const sendMore = (req, res) => {
     const body = JSON.parse(req.body.payload);
-    const {text, trigger_id, channel_id} = body;
+    const {text} = body;
 
     console.log(body.response_url);
     if (signature.isVerified(req)) {
-        console.log('verified');
-        //console.log(req.body.response_ur);
         const data = {
-            token: process.env.SLACK_ACCESS_TOKEN,
-            trigger_id,
-            channel: channel_id
+            text: '*More results*\nMore articles about ' + text
         };
-        console.log(data);
-        axios.post(body.response_url, '{"text": "Hello, world."}')
+        axios.post(body.response_url, data)
             .then((result) => {
-                const response = {
-                    text: {
-                        type: 'mrkdwn',
-                        text: '*More results*\nMore articles about ' + text
-                    }
-                };
-                console.log(response);
-                res.json(response);
+                console.log(result);
+                res.send('');
             }).catch((err) => {
-            console.log(err);
-            res.sendStatus(500);
+                console.log(err);
+                res.sendStatus(500);
         });
     } else {
         debug('Verification token mismatch');
