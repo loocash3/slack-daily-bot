@@ -5,7 +5,7 @@ const news = require('./news');
 const signature = require('./verifySignature');
 const apiUrl = 'https://slack.com/api';
 
-const send = async (req, res) => {
+const send = (req, res) => {
     const {trigger_id, channel_id} = req.body;
 
     if (signature.isVerified(req)) {
@@ -15,39 +15,40 @@ const send = async (req, res) => {
             channel: channel_id
         };
 
-        const text = req.body.text || 'schibsted';
-
-        let news = await news.news(text);
-
         axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(data))
             .then((result) => {
-                //Response text
-                const response = {
-                    blocks: [
-                        {
-                            type: 'section',
-                            text: {
-                                type: 'mrkdwn',
-                                text: buildArticleList(news)
-                            }
-                        },
-                        {
-                            type: 'actions',
-                            elements: [
-                                {
-                                    type: 'button',
-                                    text: {
-                                        type: 'plain_text',
-                                        text: 'Show more',
-                                        emoji: true
-                                    },
-                                    value: text
+
+                const text = req.body.text || 'schibsted';
+
+                news.news(text).then(newsResponse => {
+                    //Response text
+                    const response = {
+                        blocks: [
+                            {
+                                type: 'section',
+                                text: {
+                                    type: 'mrkdwn',
+                                    text: buildArticleList(newsResponse)
                                 }
-                            ]
-                        }
-                    ]
-                };
-                res.json(response);
+                            },
+                            {
+                                type: 'actions',
+                                elements: [
+                                    {
+                                        type: 'button',
+                                        text: {
+                                            type: 'plain_text',
+                                            text: 'Show more',
+                                            emoji: true
+                                        },
+                                        value: text
+                                    }
+                                ]
+                            }
+                        ]
+                    };
+                    res.json(response);
+                });
             }).catch((err) => {
             debug('err: %o', err);
             res.sendStatus(500);
