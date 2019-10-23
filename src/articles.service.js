@@ -5,7 +5,7 @@ const signature = require('./verifySignature');
 const apiUrl = 'https://slack.com/api';
 
 const send = (req, res) => {
-    const { text, trigger_id, channel_id } = req.body;
+    const {text, trigger_id, channel_id} = req.body;
 
     if (signature.isVerified(req)) {
         const data = {
@@ -43,9 +43,9 @@ const send = (req, res) => {
                 };
                 res.json(response);
             }).catch((err) => {
-                debug('err: %o', err);
-                res.sendStatus(500);
-            });
+            debug('err: %o', err);
+            res.sendStatus(500);
+        });
     } else {
         debug('Verification token mismatch');
         res.sendStatus(404);
@@ -54,7 +54,7 @@ const send = (req, res) => {
 
 const sendMore = (req, res) => {
     const body = JSON.parse(req.body.payload);
-    const { text, trigger_id, channel_id } = body;
+    const {text, trigger_id, channel_id} = body;
 
     console.log(body.response_url);
     if (signature.isVerified(req)) {
@@ -66,23 +66,18 @@ const sendMore = (req, res) => {
             channel: channel_id
         };
         console.log(data);
-        axios.post(body.response_url, qs.stringify(data))
+        axios.post(body.response_url, '{"text": "Hello, world."}')
             .then((result) => {
                 const response = {
-                    blocks: [
-                        {
-                            type: 'section',
-                            text: {
-                                type: 'mrkdwn',
-                                text: '*More results*\nMore articles about ' + text
-                            }
-                        }
-                    ]
+                    text: {
+                        type: 'mrkdwn',
+                        text: '*More results*\nMore articles about ' + text
+                    }
                 };
                 console.log(response);
                 res.json(response);
             }).catch((err) => {
-                console.log(err);
+            console.log(err);
             res.sendStatus(500);
         });
     } else {
@@ -91,4 +86,4 @@ const sendMore = (req, res) => {
     }
 };
 
-module.exports = { send, sendMore };
+module.exports = {send, sendMore};
