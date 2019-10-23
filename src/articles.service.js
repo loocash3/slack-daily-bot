@@ -22,17 +22,8 @@ const send = (req, res) => {
                             type: 'section',
                             text: {
                                 type: 'mrkdwn',
-                                text: '*Approval Request*\nYour approval is requested to make an offer to <http://example.com|Florence Tran>.'
+                                text: '*Approval Request*\nYour articles about ' + text
                             }
-                        },
-                        {
-                            type: 'context',
-                            elements: [
-                                {
-                                    type: 'mrkdwn',
-                                    text: '<http://example.com|View applicant>'
-                                }
-                            ]
                         },
                         {
                             type: 'actions',
@@ -41,46 +32,9 @@ const send = (req, res) => {
                                     type: 'button',
                                     text: {
                                         type: 'plain_text',
-                                        text: 'Approve',
+                                        text: 'Show more',
                                         emoji: true
                                     }
-                                },
-                                {
-                                    type: 'button',
-                                    text: {
-                                        type: 'plain_text',
-                                        text: 'Reject',
-                                        emoji: true
-                                    }
-                                },
-                                {
-                                    type: 'overflow',
-                                    options: [
-                                        {
-                                            text: {
-                                                type: 'plain_text',
-                                                text: 'Follow',
-                                                emoji: true
-                                            },
-                                            value: 'value-0'
-                                        },
-                                        {
-                                            text: {
-                                                type: 'plain_text',
-                                                text: 'Activity feed',
-                                                emoji: true
-                                            },
-                                            value: 'value-1'
-                                        },
-                                        {
-                                            text: {
-                                                type: 'plain_text',
-                                                text: 'Details',
-                                                emoji: true
-                                            },
-                                            value: 'value-3'
-                                        }
-                                    ]
                                 }
                             ]
                         }
