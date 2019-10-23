@@ -66,7 +66,7 @@ const sendMore = (req, res) => {
             channel: channel_id
         };
         console.log(data);
-        axios.post(req.body.response_url, qs.stringify(data))
+        axios.post(body.response_url, qs.stringify(data))
             .then((result) => {
                 const response = {
                     blocks: [
