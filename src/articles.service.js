@@ -22,7 +22,7 @@ const send = (req, res) => {
                             type: 'section',
                             text: {
                                 type: 'mrkdwn',
-                                text: '*Approval Request*\nYour articles about ' + text
+                                text: '*Results*\nYour articles about ' + text
                             }
                         },
                         {
@@ -49,6 +49,10 @@ const send = (req, res) => {
         debug('Verification token mismatch');
         res.sendStatus(404);
     }
+};
+
+const sendMore = (req, res) => {
+
 };
 
 module.exports = { send };
