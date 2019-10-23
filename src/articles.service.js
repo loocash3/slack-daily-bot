@@ -63,6 +63,13 @@ const sendMore = (req, res) => {
             text: '*More articles*\n',//Place for more articles
             blocks: [
                 {
+                    type: 'section',
+                    text: {
+                        type: 'mrkdwn',
+                        text: '*Results*\nMore articles about ' + body.actions[0].value //Place for articles
+                    }
+                },
+                {
                     type: 'actions',
                     elements: [
                         {
