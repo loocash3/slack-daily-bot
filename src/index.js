@@ -50,8 +50,7 @@ app.post('/command', (req, res) => {
     };
     axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(data))
         .then((result) => {
-          debug('data: %o', result.data);
-          res.send('');
+          res.sendStatus(200);
         }).catch((err) => {
       debug('err: %o', err);
       res.sendStatus(500);
