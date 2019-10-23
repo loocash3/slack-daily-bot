@@ -54,7 +54,7 @@ const send = (req, res) => {
 
 const sendMore = (req, res) => {
     const { text, trigger_id, channel_id } = req.body;
-
+    debug('Body: %o', req.body);
     if (signature.isVerified(req)) {
         const data = {
             token: process.env.SLACK_ACCESS_TOKEN,
