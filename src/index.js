@@ -53,7 +53,7 @@ app.post('/command', (req, res) => {
           debug('data: %o', result.data);
           result.send('asdf');
         }).catch((err) => {
-      debug('dialog.open call failed: %o', err);
+      debug('err: %o', err);
       res.sendStatus(500);
     });
   } else {
