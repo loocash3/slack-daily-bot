@@ -54,7 +54,7 @@ const send = (req, res) => {
 
 const sendMore = (req, res) => {
     const body = JSON.parse(req.body.payload);
-    console.log(body);
+    console.log(body.actions[0].value);
     const {response_url} = body;
 
     console.log(body.response_url);
@@ -72,7 +72,7 @@ const sendMore = (req, res) => {
                                 text: 'Show more',
                                 emoji: true
                             },
-                            value: text
+                            value: body.actions[0].value
                         }
                     ]
                 }
