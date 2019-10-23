@@ -35,10 +35,10 @@ const send = (req, res) => {
                                         text: 'Show more',
                                         emoji: true
                                     },
-                                    value: {
+                                    value: JSON.stringify({
                                         name: text,
                                         timestamp: Date.now()
-                                    }
+                                    })
                                 }
                             ]
                         }
@@ -68,7 +68,7 @@ const sendMore = (req, res) => {
                     type: 'section',
                     text: {
                         type: 'mrkdwn',
-                        text: '*Results*\nMore articles about ' + body.actions[0].value.name //Place for articles
+                        text: '*Results*\nMore articles about ' + body.actions[0].value //Place for articles
                     }
                 },
                 {
@@ -81,10 +81,10 @@ const sendMore = (req, res) => {
                                 text: 'Show more',
                                 emoji: true
                             },
-                            value: {
+                            value: JSON.stringify({
                                 name: body.actions[0].value.name,
                                 timestamp: Date.now()
-                            }
+                            })
                         }
                     ]
                 }
