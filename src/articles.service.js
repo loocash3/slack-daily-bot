@@ -22,7 +22,7 @@ const send = (req, res) => {
                             type: 'section',
                             text: {
                                 type: 'mrkdwn',
-                                text: '*Results*\nYour articles about ' + text
+                                text: '*Results*\nYour articles about ' + text //Place for articles
                             }
                         },
                         {
@@ -54,14 +54,14 @@ const send = (req, res) => {
 
 const sendMore = (req, res) => {
     const body = JSON.parse(req.body.payload);
-    const {text} = body;
+    const {response_url} = body;
 
     console.log(body.response_url);
     if (signature.isVerified(req)) {
         const data = {
-            text: '*More results*\nMore articles about ' + text
+            text: '*More articles*\n'//Place for more articles
         };
-        axios.post(body.response_url, data)
+        axios.post(response_url, data)
             .then((result) => {
                 console.log(result);
                 res.send('');
