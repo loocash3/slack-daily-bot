@@ -60,7 +60,23 @@ const sendMore = (req, res) => {
     console.log(body.response_url);
     if (signature.isVerified(req)) {
         const data = {
-            text: '*More articles*\n'//Place for more articles
+            text: '*More articles*\n',//Place for more articles
+            blocks: [
+                {
+                    type: 'actions',
+                    elements: [
+                        {
+                            type: 'button',
+                            text: {
+                                type: 'plain_text',
+                                text: 'Show more',
+                                emoji: true
+                            },
+                            value: text
+                        }
+                    ]
+                }
+            ]
         };
         axios.post(response_url, data)
             .then((result) => {
