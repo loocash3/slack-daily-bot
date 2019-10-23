@@ -62,7 +62,7 @@ const sendMore = (req, res) => {
             trigger_id,
             channel: channel_id
         };
-        axios.post(`${apiUrl}/chat.postMessage`, qs.stringify(data))
+        axios.post(req.body.response_url, qs.stringify(data))
             .then((result) => {
                 const response = {
                     blocks: [
