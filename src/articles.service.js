@@ -54,6 +54,7 @@ const send = (req, res) => {
 
 const sendMore = (req, res) => {
     const body = JSON.parse(req.body.payload);
+    console.log(body);
     const {response_url} = body;
 
     console.log(body.response_url);
