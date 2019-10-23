@@ -93,6 +93,36 @@ const sendMore = (req, res) => {
                 console.log(err);
                 res.sendStatus(500);
         });
+        axios.post(`${apiUrl}/chat.postMessage`, data)
+            .then((result) => {
+                const data = {
+                    text: '*More articles*\n',//Place for more articles
+                    blocks: [
+                        {
+                            type: 'section',
+                            text: {
+                                type: 'mrkdwn',
+                                text: '*Results*\nMore articles about ' + body.actions[0].value //Place for articles
+                            }
+                        },
+                        {
+                            type: 'actions',
+                            elements: [
+                                {
+                                    type: 'button',
+                                    text: {
+                                        type: 'plain_text',
+                                        text: 'Show more',
+                                        emoji: true
+                                    },
+                                    value: body.actions[0].value
+                                }
+                            ]
+                        }
+                    ]
+                };
+                res.json(data);
+            });
     } else {
         debug('Verification token mismatch');
         res.sendStatus(404);
