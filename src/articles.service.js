@@ -55,6 +55,8 @@ const send = (req, res) => {
 const sendMore = (req, res) => {
     const { text, trigger_id, channel_id } = req.body;
     console.log(req.body);
+    console.log(req.body.payload);
+    console.log(JSON.parse(req.body.payload));
     if (signature.isVerified(req)) {
         console.log('verified');
         console.log(req.body.response_ur);
