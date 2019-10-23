@@ -57,6 +57,7 @@ const sendMore = (req, res) => {
     console.log(req.body);
     if (signature.isVerified(req)) {
         console.log('verified');
+        console.log(req.body.response_ur);
         const data = {
             token: process.env.SLACK_ACCESS_TOKEN,
             trigger_id,
