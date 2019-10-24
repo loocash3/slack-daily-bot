@@ -31,7 +31,7 @@ const send = (req, res) => {
                                     text: buildArticleList(newsResponse)
                                 }
                             },
-                            {
+                            /*{
                                 type: 'actions',
                                 elements: [
                                     {
@@ -44,7 +44,7 @@ const send = (req, res) => {
                                         value: text
                                     }
                                 ]
-                            }
+                            }*/
                         ]
                     };
                     res.json(response);
@@ -89,7 +89,7 @@ const generatePrettyLink = (url, title) => {
 
 const buildArticleList = (news) => {
     return news.reduce((accumulator, currentValue) => {
-        accumulator.push('*' + currentValue.title + '*');
+        accumulator.push('*' + currentValue.title + ':*');
         currentValue.links.map(link => {
             accumulator.push(generatePrettyLink(link.url, link.title));
         });
