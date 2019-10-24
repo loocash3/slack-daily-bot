@@ -89,12 +89,12 @@ const generatePrettyLink = (url, title) => {
 
 const buildArticleList = (news) => {
     return news.reduce((accumulator, currentValue) => {
-        accumulator.push('*' + currentValue.title + ':*');
+        accumulator.push(currentValue.title);
         currentValue.links.map(link => {
             accumulator.push(generatePrettyLink(link.url, link.title));
         });
         return accumulator;
-    }, ['*Results*']).join('\n');
+    }, ['*Results:*']).join('\n');
 };
 
 module.exports = {send, sendMore};
