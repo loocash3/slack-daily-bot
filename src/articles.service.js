@@ -84,7 +84,7 @@ const sendMore = (req, res) => {
 };
 
 const generatePrettyLink = (url, title) => {
-    return '<' + url + '|' + title + '>';
+    return '• <' + url + '|' + title + '>';
 };
 
 const buildArticleList = (news) => {
