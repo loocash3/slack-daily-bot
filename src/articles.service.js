@@ -83,11 +83,15 @@ const sendMore = (req, res) => {
     }
 };
 
+const generatePrettyLink = (url, title) => {
+    return '<' + url + '|' + title + '>';
+};
+
 const buildArticleList = (news) => {
     return news.reduce((accumulator, currentValue) => {
-        accumulator.push(currentValue.title);
+        accumulator.push('*' + currentValue.title + '*');
         currentValue.links.map(link => {
-            accumulator.push(link.url);
+            accumulator.push(generatePrettyLink(link.url, link.title));
         });
         return accumulator;
     }, ['*Results*']).join('\n');
